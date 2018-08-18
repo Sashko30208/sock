@@ -22,7 +22,7 @@ int s, i, slen = sizeof(si_me), recv_len;
 char buf[BUFLEN];
 
 //creating of socket
-if((s=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP))== -1
+if((s=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP))== -1)
 {
 	die("socket");
 }
