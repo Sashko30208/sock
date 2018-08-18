@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <ctype.h>
+#include <unistd.h>//close()
 
 #define BUFLEN 512 //max Buffer length
 #define port 8888
