@@ -34,7 +34,7 @@ si_me.sin_port = htons(port);
 si_me.sin_addr.s_addr = htonl(INADDR_ANY);
 
 //bind socket to port
-if( bind(s, (struct sockaddr*)&si_me,sizeof(si_me))== -1
+if( bind(s, (struct sockaddr*)&si_me,sizeof(si_me))== -1)
 {
 	die("bind");
 }
