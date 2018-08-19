@@ -26,7 +26,7 @@ int s, slen=sizeof(si);
 char buf[BUFLEN];
 char message[BUFLEN];
 
-if((s=socket(AF_INET, SOCK_DGRAM, IPROTO_UDP)) == -1)//creating of socket
+if((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)//creating of socket
 {
 	die("socket");
 }
@@ -46,11 +46,11 @@ while(1)
 	printf("Enter message: ");
 	gets(message);
 
-	if(sendto(s,message, strlen(message), 0, (struct sockaddr*) si, slen)==-1)
+	if(sendto(s,message, strlen(message), 0, (struct sockaddr*) &si, slen)==-1)
 	{
 		die("sendto()");
 	}
-	
+
 //clear the buffer
 	memset(buf, '\0',BUFLEN);
 //try to receive some data
