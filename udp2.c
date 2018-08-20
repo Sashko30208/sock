@@ -44,16 +44,22 @@ if(inet_aton(SERVER, &si.sin_addr) ==0)
 while(1)
  {
 	printf("Enter message: ");
-	gets(message);
+	fgets(message, BUFLEN, stdin);
+
+	//printf("Message: %s\n", message);
 
 	if(sendto(s,message, strlen(message), 0, (struct sockaddr*) &si, slen)==-1)
 	{
 		die("sendto()");
 	}
 
+	//printf("sendto: %s : %s",SERVER, PORT);
+	printf("sended");
 //clear the buffer
 	memset(buf, '\0',BUFLEN);
+
 //try to receive some data
+	printf("recieving");
 	if (recvfrom(s,buf,BUFLEN, 0, (struct sockaddr*) &si, &slen)== -1)
 	{
 	die("recvfrom()");
