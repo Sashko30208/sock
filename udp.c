@@ -9,6 +9,7 @@
 
 #define BUFLEN 512 //max Buffer length
 #define port 8888
+#define REPLY "Is_Reply\n"
 
 void die (char *s)
 {
@@ -21,7 +22,7 @@ int main()
 struct sockaddr_in si_me, si_others;
 int s, i, slen = sizeof(si_me), recv_len;
 char buf[BUFLEN];
-
+char *str;
 //creating of socket
 if((s=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP))== -1)
 {
@@ -43,8 +44,10 @@ if( bind(s, (struct sockaddr*)&si_me,sizeof(si_me))== -1)
 //keep listening
 while(1)
 {
+memset((char *)&buf, 0, BUFLEN);
 printf("Waiting for data..");
 fflush(stdout);
+
 
 //trying to receive some data
 if((recv_len = recvfrom(s, buf, BUFLEN, 0, (struct sockaddr*) &si_others, &slen)) == -1)
@@ -57,11 +60,25 @@ printf("Received packet from %s: %d\n", inet_ntoa(si_others.sin_addr), ntohs(si_
 // ntoa = ip net format to string | ntohs = netshort to uint16
 printf("Data: %s\n", buf);
 
+printf("BUFLEN %d; len buf %d\n",BUFLEN, strlen(buf));
+
+*str = malloc(sizeof(char)*(strlen(buf)+strlen(REPLY)+1));
+//+1 because strlen() can't see the "\n" symbol
+
+if (sizeof(str)<BUFLEN)
+{
+//strcpy(buf,buf+REPLY);
+//*(&buf+strlen(buf))=REPLY;
+//sprintf(*(&buf+(strlen(buf))*sizeof(char)),REPLY);
+sprintf(*(&buf), "%s %s\n",buf, REPLY);
+printf("%d\n",strlen(buf));
+}
+
 if (sendto(s, buf, recv_len, 0, (struct sockaddr*) &si_others,slen) == -1)
 {
 	die("sendto()");
 }
-
+//free(str);
 }
 close(s);
 return 0;
