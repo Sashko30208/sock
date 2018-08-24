@@ -9,7 +9,7 @@
 
 #define BUFLEN 512 //max Buffer length
 #define port 8888
-#define REPLY "Is_Reply\n"
+#define REPLY " Is_Reply\n"
 
 void die (char *s)
 {
@@ -69,12 +69,12 @@ if (sizeof(str)<BUFLEN)
 {
 //strcpy(buf,buf+REPLY);
 //*(&buf+strlen(buf))=REPLY;
-//sprintf(*(&buf+(strlen(buf))*sizeof(char)),REPLY);
-sprintf(*(&buf), "%s %s\n",buf, REPLY);
+sprintf((buf+(strlen(buf)-1)*sizeof(char)),REPLY);
+//sprintf(*(&buf), "%s%s\n",buf, REPLY);
 printf("%d\n",strlen(buf));
 }
 
-if (sendto(s, buf, recv_len, 0, (struct sockaddr*) &si_others,slen) == -1)
+if (sendto(s, buf, strlen(buf), 0, (struct sockaddr*) &si_others,slen) == -1)
 {
 	die("sendto()");
 }
