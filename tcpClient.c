@@ -1,5 +1,5 @@
 /*
-The simple udp client
+The simple tcp client
 */
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -12,7 +12,7 @@ The simple udp client
 #include <ctype.h>
 #include <unistd.h>//close()
 
-#define SERVER "192.168.1.70"
+#define SERVER "192.168.0.70"
 #define BUFLEN 512 //Max length of buffer
 #define PORT 8888
 
@@ -50,7 +50,7 @@ int main()
 }
 	
 	//на стороне клиента connect - для установление соединения
-	if(connect(s, (struct sockaddr *)&si, slen < 0)
+	if(connect(s, (struct sockaddr *)&si, slen) < 0)
 	{
 		die("connect");
 	}
@@ -71,15 +71,15 @@ int main()
     {
         die("recv()");
     }
-    puts(buf;)
 
+    puts(buf);
     }
 	//отправка сообщения
 	//send(sock_id, message, sizeof(message), 0);
 	//принятие сообщения
 	//recv(sock_id, buf, 2*sizeof(message), 0);
 	//printf("%s	",buf);
-	close(sock_id);
+	close(s);
 
 	return 0;
 }

@@ -13,6 +13,13 @@
 #define BUFLEN 512 //max Buffer length
 #define PORT 8888
 #define REPLY " Is_Reply\n"
+#define SA struct sockaddr
+typedef struct
+{
+int oft;
+int len;
+char data[BUFLEN];
+}Mem;
 
 void die (char *s)
 {
@@ -30,8 +37,9 @@ int main()
 	struct sockaddr_in si;
 	char buf[BUFLEN];
 	int recv_len;
+	bzero(&si, sizeof(si));
 /*(AF_INET(internet-домен),SOCK_STREAM(для TCP),протокол по умолчанию)*/
-	if(listening = socket(AF_INET, SOCK_STREAM, 0)==-1) //создание сокета
+	if ((listening = socket(AF_INET, SOCK_STREAM, 0))==-1) //создание сокета
 	{
         die("socket()");
     }
@@ -47,11 +55,11 @@ int main()
 	
 	//Host TO Network Long - реобразование числа порядка хоста в сетевой
 	// INADDR_ANY - соединения с клиентами через любой IP
-	addr.sin_addr.s_addr = htonl(INADDR_ANY); //IP-адрес
+	si.sin_addr.s_addr = htonl(INADDR_ANY); //IP-адрес
 	
 	//bind - для явного связывание с некоторым адресом
-	if(bind(listening, (struct sockaddr *)&addr, sizeof(addr)) ==-1) 
-    {
+	if(bind(listening, (SA*)&si, sizeof(si)) ==-1)
+    	{
 		die("bind");
 	}
 	
@@ -78,7 +86,7 @@ int main()
                 break;
             }
 
-            if (sizeof(str)<BUFLEN)
+            if (sizeof(buf)<BUFLEN)
             {
                 sprintf(*(&buf), "%s%s\n",buf, REPLY);
                 printf("%d\n",strlen(buf));
