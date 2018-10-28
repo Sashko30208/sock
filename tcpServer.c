@@ -86,14 +86,11 @@ int main()
                 break;
             }
 
-            if (sizeof(buf)<BUFLEN)
-            {
                 sprintf(*(&buf), "%s%s\n",buf, REPLY);
                 printf("%d\n",strlen(buf));
-            }
             //strcat(buf, mess_serv);
 			//send для отправки данных 
-			if (send(fd_s, buf, 2*recv_len, 0)== -1)
+			if (send(fd_s, buf, strlen(buf), 0)== -1)
             {
                 die("sendto()");
             }

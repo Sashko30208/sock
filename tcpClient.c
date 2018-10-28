@@ -73,6 +73,7 @@ int main()
     }
 
     puts(buf);
+	memset(buf,0,BUFLEN);
     }
 	//отправка сообщения
 	//send(sock_id, message, sizeof(message), 0);
